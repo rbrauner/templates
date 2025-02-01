@@ -4,7 +4,7 @@
 
 ### Tools versions
 
-- PHP ^8.4
+- PHP ^8.3
 - PHP extensions (install all to satisfy `symfony check:requirements`)
 - Composer ^2
 
