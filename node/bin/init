@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Copyright (C) Rafał Brauner
+
+env="${ENV:-dev}"
+
+if [[ "$env" == 'dev' ]]; then
+echo '> Initializing dev environment...'
+read -r -p '> Press Enter to continue...'
+
+if [[ ! -f '.env' ]]; then
+echo '> Creating ".env" file from ".env.example-dev"...'
+cp .env.example-dev .env
+else
+echo '> ".env" file already exists. Skipping creation...'
+fi
+
+if [[ ! -f 'compose.yaml' ]]; then
+echo '> Creating "compose.yaml" from "compose.example-dev.yaml"...'
+cp compose.example-dev.yaml compose.yaml
+else
+echo '> "compose.yaml" file already exists. Skipping creation...'
+fi
+
+read -r -p '> Check the created files + create docker network (ex. "docker network create shared-network") and press Enter to continue...'
+
+echo '> Starting Docker containers...'
+docker compose up -d
+
+echo '> Installing node dependencies using npm...'
+docker compose exec -it node bash -c "npm install"
+
+echo '> Dev environment initialized successfully!'
+elif [[ "$env" == 'prod' ]]; then
+echo '> Initializing prod environment...'
+echo '> Nothing to do...'
+echo '> Prod environment initialized successfully!'
+else
+echo "> Unknown environment: ${env}" >&2
+exit 1
+fi
