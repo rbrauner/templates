@@ -1,0 +1,37 @@
+services:
+    php:
+        container_name: template-php
+        build:
+            context: .
+            dockerfile: ./docker/dev/php/Dockerfile
+            network: host
+        depends_on:
+            - change-volume-ownership
+        working_dir: /var/www/html
+        user: "${UID:-1000}:${GID:-1000}"
+        environment:
+            HOME: ${HOME}
+        networks:
+            main:
+        volumes:
+            - home:/home/rbrauner
+            - .:/var/www/html
+
+    change-volume-ownership:
+        container_name: template-change-volume-ownership
+        image: alpine
+        command: chown -R ${UID:-1000}:${GID:-1000} /home/rbrauner
+        user: root
+        group_add:
+            - ${GID:-1000}
+        networks:
+            - main
+        volumes:
+            - home:/home/rbrauner
+
+networks:
+    main:
+        external: true
+
+volumes:
+    home:
