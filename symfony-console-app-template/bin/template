@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Copyright (C) Rafał Brauner
+ */
+
+$root = dirname(__DIR__);
+
+if (!is_file("{$root}/vendor/autoload.php")) {
+    $root = dirname(__DIR__, 4);
+}
+
+require "{$root}/vendor/autoload.php";
+
+use App\ConsoleCommand\TemplateConsoleCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+
+$application->add(new TemplateConsoleCommand());
+$application->run();
