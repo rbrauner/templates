@@ -7,8 +7,6 @@ services:
             args:
                 - TZ="${TZ:-Europe/Warsaw}"
             network: host
-        depends_on:
-            - change-volume-ownership
         working_dir: /var/www/html
         user: "${UID:-1000}:${GID:-1000}"
         environment:
