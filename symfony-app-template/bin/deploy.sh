@@ -2,6 +2,8 @@
 
 docker compose up -d
 docker exec -it template-php bash -c "APP_ENV=prod composer install --no-dev --optimize-autoloader"
+docker exec -it template-node bash -c "yarn install"
+docker exec -it template-node bash -c "yarn run build"
 
 rsync -zariv --delete --mkpath -e 'ssh -p 22' bin/console user@host:/apps/template/bin/console
 rsync -zariv --delete --mkpath -e 'ssh -p 22' config/ user@host:/apps/template/config
