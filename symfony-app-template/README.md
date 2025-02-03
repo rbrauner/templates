@@ -50,8 +50,11 @@ volumes:
     postgres:
 ```
 
-9. Build docker containers: `docker compose up -d --build`
-10. Install php dependencies: `docker exec -it template-php bash -c "composer install"`
+9. Set variables with prefix `DATABSE_` in `.env` using database credentials
+10. Build docker containers: `docker compose up -d --build`
+11. Install php dependencies: `docker exec -it template-php bash -c "composer install"`
+12. Create database: `docker exec -it template-php bash -c "php bin/console doctrine:database:create"`
+13. Load fixtures: `docker exec -it template-php bash -c "php bin/console doctrine:fixtures:load"`
 
 ### Run
 
@@ -79,6 +82,8 @@ docker compose stop
 - `docker exec -it template-php bash -c "composer run rector"` - run rector
 - `docker exec -it template-php bash -c "composer run check-security"` - check security
 - `docker exec -it template-php bash -c "composer run normalize-composer"` - normalize composer.json
+- `docker exec -it template-php bash -c "php bin/console doctrine:database:create"` - create database
+- `docker exec -it template-php bash -c "php bin/console doctrine:fixtures:load"` - load fixtures
 
 ## Prod
 
