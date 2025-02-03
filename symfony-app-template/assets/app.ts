@@ -1,3 +1,5 @@
-import "./app.css";
+import "./styles/app.scss";
 
-console.log("Happy coding !!");
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Hello World");
+});
