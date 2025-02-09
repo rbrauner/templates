@@ -1,6 +1,6 @@
 {
     "name": "rbrauner/template",
-    "description": "PHP App Template",
+    "description": "Symfony App Template",
     "license": "MIT",
     "type": "project",
     "authors": [
@@ -86,7 +86,8 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.2.*"
+            "docker": true,
+            "require": "^7.2"
         }
     },
     "scripts": {
