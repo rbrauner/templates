@@ -42,6 +42,24 @@ services:
             - home:/home/rbrauner
             - .:/var/www/html
 
+    node:
+        container_name: template-node
+        build:
+            context: .
+            dockerfile: ./docker/dev/node/Dockerfile
+            network: host
+        command: /var/www/html/docker/dev/node/startup.sh
+        working_dir: /var/www/html
+        user: "${UID:-1000}:${GID:-1000}"
+        environment:
+            HOME: ${HOME}
+        tty: true
+        networks:
+            main:
+        volumes:
+            - home:/home/rbrauner
+            - .:/var/www/html
+
     change-volume-ownership:
         container_name: template-change-volume-ownership
         image: alpine
