@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 docker compose up -d
-docker exec -it template-php bash -c "APP_ENV=prod composer install --no-dev --optimize-autoloader"
+docker exec -it template-php bash -c "APP_ENV=prod composer.phar install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader"
 
 rsync -zariv --delete --mkpath -e 'ssh -p 22' docker/prod/ user@host:/apps/template/docker/prod
 rsync -zariv --delete --mkpath -e 'ssh -p 22' public/ user@host:/apps/template/public

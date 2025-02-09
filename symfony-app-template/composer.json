@@ -34,7 +34,7 @@
         "doctrine/doctrine-fixtures-bundle": "^4.0",
         "enlightn/security-checker": "^2.0",
         "ergebnis/composer-normalize": "^2.45",
-        "php-cs-fixer/shim": "^3.68",
+        "php-cs-fixer/shim": "^3.68.5",
         "phpstan/extension-installer": "^1.4.3",
         "phpstan/phpstan": "^2.1.3",
         "phpstan/phpstan-doctrine": "^2.0.1",
@@ -69,7 +69,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "App\\Tests\\": "tests/"
         }
     },
     "config": {
