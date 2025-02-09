@@ -7,6 +7,13 @@
 - PHP ^8.3
 - PHP extensions (install all to satisfy `symfony check:requirements`)
 - Composer ^2
+- Node ^22.13
+- Yarn ^1
+
+### TODO
+
+- [ ] Add eslint
+- [ ] Add vitest
 
 ## Dev
 
@@ -53,8 +60,9 @@ volumes:
 9. Set variables with prefix `DATABSE_` in `.env` using database credentials
 10. Build docker containers: `docker compose up -d --build`
 11. Install php dependencies: `docker exec -it template-php bash -c "composer install"`
-12. Create database: `docker exec -it template-php bash -c "php bin/console doctrine:database:create"`
-13. Load fixtures: `docker exec -it template-php bash -c "php bin/console doctrine:fixtures:load"`
+12. Install node dependencies: `docker exec -it template-node bash -c "yarn install"`
+13. Create database: `docker exec -it template-php bash -c "php bin/console doctrine:database:create"`
+14. Load fixtures: `docker exec -it template-php bash -c "php bin/console doctrine:fixtures:load"`
 
 ### Run
 
@@ -76,6 +84,8 @@ docker compose stop
 - `docker compose stop` - start containers
 - `docker exec -it template-php bash -c "composer install"` - install php dependencies
 - `docker exec -it template-php bash -c "composer update"` - update php dependencies
+- `docker exec -it template-node bash -c "yarn install"` - install node dependencies
+- `docker exec -it template-node bash -c "yarn upgrade"` - update node dependencies
 - `docker exec -it template-php bash -c "php bin/console doctrine:database:create"` - create database
 - `docker exec -it template-php bash -c "php bin/console doctrine:fixtures:load"` - load fixtures
 - `docker exec -it template-php bash -c "composer run check"` - check code
@@ -84,6 +94,8 @@ docker compose stop
 - `docker exec -it template-php bash -c "composer run rector"` - run rector
 - `docker exec -it template-php bash -c "composer run check-security"` - check security
 - `docker exec -it template-php bash -c "composer run normalize-composer"` - normalize composer.json
+- `docker exec -it template-node bash -c "yarn run check"` - node check
+- `docker exec -it template-node bash -c "yarn run fix"` - node fix
 
 ## Prod
 

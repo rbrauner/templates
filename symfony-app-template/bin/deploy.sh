@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 docker compose up -d
-docker exec -it template-php bash -c "APP_ENV=prod composer.phar install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader"
+docker exec -it template-php bash -c "APP_ENV=prod composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader"
+docker exec -it template-node bash -c "yarn install"
+docker exec -it template-node bash -c "yarn build"
 
 rsync -zariv --delete --mkpath -e 'ssh -p 22' bin/console user@host:/apps/template/bin/console
 rsync -zariv --delete --mkpath -e 'ssh -p 22' config/ user@host:/apps/template/config
