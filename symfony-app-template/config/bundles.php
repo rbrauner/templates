@@ -15,6 +15,9 @@ use Symfony\Bundle\MakerBundle\MakerBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
+use Symfony\UX\StimulusBundle\StimulusBundle;
+use Symfony\UX\Vue\VueBundle;
+use Symfony\WebpackEncoreBundle\WebpackEncoreBundle;
 use Twig\Extra\TwigExtraBundle\TwigExtraBundle;
 
 return [
@@ -28,4 +31,7 @@ return [
     DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     DebugBundle::class => ['dev' => true],
     WebProfilerBundle::class => ['dev' => true, 'test' => true],
+    WebpackEncoreBundle::class => ['all' => true],
+    StimulusBundle::class => ['all' => true],
+    VueBundle::class => ['all' => true],
 ];
