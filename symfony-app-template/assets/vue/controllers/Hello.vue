@@ -2,8 +2,8 @@
     <div>Hello {{ name }}!</div>
 </template>
 
-<script setup>
-    defineProps({
-        name: String
-    });
+<script setup lang="ts">
+defineProps({
+    name: String,
+});
 </script>
