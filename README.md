@@ -1,4 +1,4 @@
-# templates
+# Templates
 
 - [PHP App Template](./php-app-template)
 - [Symfony App Template](./symfony-app-template)
