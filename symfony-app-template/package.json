@@ -12,14 +12,13 @@
         "fix": "yarn prettier ./assets --write",
         "check": "npx prettier ./assets --check"
     },
-    "dependencies": [],
+    "dependencies": {},
     "devDependencies": {
         "@babel/core": "^7.26.8",
         "@babel/preset-env": "^7.26.8",
         "@hotwired/stimulus": "^3.2.2",
         "@hotwired/turbo": "^8.0.12",
         "@symfony/stimulus-bridge": "^3.2.0",
-        "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
         "@symfony/ux-vue": "file:vendor/symfony/ux-vue/assets",
         "@symfony/webpack-encore": "^5.0.1",
         "@tailwindcss/postcss": "^4.0.6",
@@ -27,6 +26,7 @@
         "@types/node": "^22.13.1",
         "@vue/compiler-sfc": "^3.5.13",
         "core-js": "^3.40.0",
+        "file-loader": "^6.2.0",
         "postcss": "^8.5.2",
         "postcss-loader": "^8.1.1",
         "prettier": "^3.5.0",
