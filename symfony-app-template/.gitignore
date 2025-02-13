@@ -640,4 +640,5 @@ yarn-error.log
 .env
 .idea
 compose.yaml
+var
 ###< rbrauner/template ###
