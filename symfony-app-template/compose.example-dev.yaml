@@ -21,10 +21,11 @@ services:
             - "traefik.http.routers.template.entrypoints=http"
             - "traefik.http.routers.template.tls=false"
             - "traefik.http.routers.template.service=template"
+            - "traefik.http.services.template-secure.loadbalancer.server.port=443"
             - "traefik.http.routers.template-secure.rule=Host(`${DOMAIN:-template.local}`)"
             - "traefik.http.routers.template-secure.entrypoints=https"
             - "traefik.http.routers.template-secure.tls=true"
-            - "traefik.http.routers.template-secure.service=template"
+            - "traefik.http.routers.template-secure.service=template-secure"
 
     php:
         container_name: template-php

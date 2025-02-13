@@ -397,4 +397,5 @@ $RECYCLE.BIN/
 .env
 .idea
 compose.yaml
+var
 ###< rbrauner/template ###
