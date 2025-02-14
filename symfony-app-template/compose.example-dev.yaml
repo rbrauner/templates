@@ -17,11 +17,11 @@ services:
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.template.loadbalancer.server.port=80"
+            - "traefik.http.services.template-secure.loadbalancer.server.port=443"
             - "traefik.http.routers.template.rule=Host(`${DOMAIN:-template.local}`)"
             - "traefik.http.routers.template.entrypoints=http"
             - "traefik.http.routers.template.tls=false"
             - "traefik.http.routers.template.service=template"
-            - "traefik.http.services.template-secure.loadbalancer.server.port=443"
             - "traefik.http.routers.template-secure.rule=Host(`${DOMAIN:-template.local}`)"
             - "traefik.http.routers.template-secure.entrypoints=https"
             - "traefik.http.routers.template-secure.tls=true"
@@ -39,6 +39,8 @@ services:
             HOME: ${HOME}
         networks:
             main:
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         volumes:
             - home:/home/rbrauner
             - .:/var/www/html

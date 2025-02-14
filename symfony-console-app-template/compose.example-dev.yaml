@@ -11,6 +11,8 @@ services:
             HOME: ${HOME}
         networks:
             main:
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         volumes:
             - home:/home/rbrauner
             - .:/var/www/html
