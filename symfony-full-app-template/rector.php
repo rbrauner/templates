@@ -12,10 +12,13 @@ use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\Node\RemoveNonExistingVarAnnotationRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\Symfony\Set\SymfonySetList;
 
 return RectorConfig::configure()
     ->withPaths([
         __DIR__.'/bin',
+        __DIR__.'/config',
+        __DIR__.'/migrations',
         __DIR__.'/public',
         __DIR__.'/src',
         __DIR__.'/tests',
@@ -40,6 +43,7 @@ return RectorConfig::configure()
         SetList::INSTANCEOF,
         SetList::CARBON,
         SetList::BEHAT_ANNOTATIONS_TO_ATTRIBUTES,
+        SymfonySetList::SYMFONY_72,
     ])
     ->withSkip([
         RemoveNonExistingVarAnnotationRector::class,

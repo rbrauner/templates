@@ -7,7 +7,6 @@ docker exec -it template-node bash -c "yarn build"
 
 rsync -zariv --delete --mkpath -e 'ssh -p 22' bin/console user@host:/apps/template/bin/console
 rsync -zariv --delete --mkpath -e 'ssh -p 22' config/ user@host:/apps/template/config
-rsync -zariv --delete --mkpath -e 'ssh -p 22' data/ user@host:/apps/template/data
 rsync -zariv --delete --mkpath -e 'ssh -p 22' docker/prod/ user@host:/apps/template/docker/prod
 rsync -zariv --delete --mkpath -e 'ssh -p 22' migrations/ user@host:/apps/template/migrations
 rsync -zariv --delete --mkpath -e 'ssh -p 22' public/ user@host:/apps/template/public
