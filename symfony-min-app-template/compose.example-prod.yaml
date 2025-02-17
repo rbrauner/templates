@@ -1,0 +1,67 @@
+services:
+    caddy:
+        container_name: template-caddy
+        image: caddy:alpine
+        working_dir: /var/www/html
+        # user: "${UID:-1000}:${GID:-1000}"
+        environment:
+            HOME: ${HOME}
+        networks:
+            main:
+        volumes:
+            - home:/home/rbrauner
+            - caddy_data:/data
+            - caddy_config:/config
+            - .:/var/www/html
+            - ./docker/prod/caddy/Caddyfile:/etc/caddy/Caddyfile
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.template.loadbalancer.server.port=80"
+            - "traefik.http.services.template-secure.loadbalancer.server.port=443"
+            - "traefik.http.routers.template.rule=Host(`${DOMAIN:-template.com}`)"
+            - "traefik.http.routers.template.entrypoints=http"
+            - "traefik.http.routers.template.tls=false"
+            - "traefik.http.routers.template.service=template"
+            - "traefik.http.routers.template-secure.rule=Host(`${DOMAIN:-template.com}`)"
+            - "traefik.http.routers.template-secure.entrypoints=https"
+            - "traefik.http.routers.template-secure.tls=true"
+            - "traefik.http.routers.template-secure.service=template-secure"
+
+    php:
+        container_name: template-php
+        build:
+            context: .
+            dockerfile: ./docker/prod/php/Dockerfile
+            args:
+                - TZ="${TZ:-Europe/Warsaw}"
+            network: host
+        working_dir: /var/www/html
+        user: "${UID:-1000}:${GID:-1000}"
+        environment:
+            HOME: ${HOME}
+        networks:
+            main:
+        volumes:
+            - home:/home/rbrauner
+            - .:/var/www/html
+
+    change-volume-ownership:
+        container_name: template-change-volume-ownership
+        image: alpine
+        command: chown -R ${UID:-1000}:${GID:-1000} /home/rbrauner
+        user: root
+        group_add:
+            - ${GID:-1000}
+        networks:
+            - main
+        volumes:
+            - home:/home/rbrauner
+
+networks:
+    main:
+        external: true
+
+volumes:
+    home:
+    caddy_data:
+    caddy_config:

@@ -1,4 +1,4 @@
-# Symfony App Template
+# Symfony Min App Template
 
 ## General
 

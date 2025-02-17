@@ -1,6 +1,6 @@
 {
     "name": "rbrauner/template",
-    "description": "Symfony App Template",
+    "description": "Symfony Min App Template",
     "license": "MIT",
     "type": "project",
     "authors": [
@@ -14,27 +14,14 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "composer/composer": "^2.8.5",
-        "doctrine/dbal": "^4.2.2",
-        "doctrine/doctrine-bundle": "^2.13.2",
-        "doctrine/doctrine-migrations-bundle": "^3.4.1",
-        "doctrine/orm": "^3.3.2",
         "symfony/console": "^7.2.1",
-        "symfony/debug-bundle": "^7.2",
         "symfony/dotenv": "^7.2",
         "symfony/flex": "^2.4.7",
         "symfony/framework-bundle": "^7.2.3",
-        "symfony/monolog-bundle": "^3.10",
         "symfony/runtime": "^7.2.3",
-        "symfony/stimulus-bundle": "^2.23",
-        "symfony/translation": "^7.2.2",
-        "symfony/twig-bundle": "^7.2",
-        "symfony/ux-vue": "^2.23",
-        "symfony/webpack-encore-bundle": "^2.2",
-        "symfony/yaml": "^7.2.3",
-        "twig/extra-bundle": "^3.19"
+        "symfony/yaml": "^7.2.3"
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^4.0",
         "enlightn/security-checker": "^2.0",
         "ergebnis/composer-normalize": "^2.45",
         "php-cs-fixer/shim": "^3.68.5",
@@ -45,9 +32,7 @@
         "phpstan/phpstan-symfony": "^2.0.2",
         "phpunit/phpunit": "^11.5.7",
         "rector/rector": "^2.0.9",
-        "roave/security-advisories": "dev-latest",
-        "symfony/maker-bundle": "^1.62.1",
-        "symfony/web-profiler-bundle": "^7.2.3"
+        "roave/security-advisories": "dev-latest"
     },
     "replace": {
         "symfony/polyfill-ctype": "*",
