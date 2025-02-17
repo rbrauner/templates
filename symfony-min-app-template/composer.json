@@ -1,30 +1,55 @@
 {
+    "name": "rbrauner/template",
+    "description": "Symfony Min App Template",
+    "license": "MIT",
     "type": "project",
-    "license": "proprietary",
-    "minimum-stability": "stable",
-    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "rbrauner",
+            "email": "rafalbrauner@gmail.com"
+        }
+    ],
     "require": {
-        "php": ">=8.2",
+        "php": "^8.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "symfony/console": "7.2.*",
-        "symfony/dotenv": "7.2.*",
-        "symfony/flex": "^2",
-        "symfony/framework-bundle": "7.2.*",
-        "symfony/runtime": "7.2.*",
-        "symfony/yaml": "7.2.*"
+        "composer/composer": "^2.8.5",
+        "symfony/console": "^7.2.1",
+        "symfony/dotenv": "^7.2",
+        "symfony/flex": "^2.4.7",
+        "symfony/framework-bundle": "^7.2.3",
+        "symfony/runtime": "^7.2.3",
+        "symfony/yaml": "^7.2.3"
     },
     "require-dev": {
+        "enlightn/security-checker": "^2.0",
+        "ergebnis/composer-normalize": "^2.45",
+        "php-cs-fixer/shim": "^3.68.5",
+        "phpstan/extension-installer": "^1.4.3",
+        "phpstan/phpstan": "^2.1.4",
+        "phpstan/phpstan-doctrine": "^2.0.1",
+        "phpstan/phpstan-phpunit": "^2.0.4",
+        "phpstan/phpstan-symfony": "^2.0.2",
+        "phpunit/phpunit": "^11.5.7",
+        "rector/rector": "^2.0.9",
+        "roave/security-advisories": "dev-latest"
     },
-    "config": {
-        "allow-plugins": {
-            "php-http/discovery": true,
-            "symfony/flex": true,
-            "symfony/runtime": true
-        },
-        "bump-after-update": true,
-        "sort-packages": true
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php82": "*",
+        "symfony/polyfill-php83": "*"
     },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "App\\": "src/"
@@ -35,35 +60,40 @@
             "App\\Tests\\": "tests/"
         }
     },
-    "replace": {
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php73": "*",
-        "symfony/polyfill-php74": "*",
-        "symfony/polyfill-php80": "*",
-        "symfony/polyfill-php81": "*",
-        "symfony/polyfill-php82": "*"
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "bump-after-update": true,
+        "sort-packages": true
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "docker": true,
+            "require": "^7.2"
+        }
     },
     "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
         "post-install-cmd": [
             "@auto-scripts"
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
-    },
-    "conflict": {
-        "symfony/symfony": "*"
-    },
-    "extra": {
-        "symfony": {
-            "allow-contrib": false,
-            "require": "7.2.*"
-        }
+        ],
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "check": "php vendor/bin/php-cs-fixer check && php vendor/bin/phpstan analyse",
+        "check-security": "composer audit && php vendor/bin/security-checker security:check composer.lock",
+        "fix": "php vendor/bin/php-cs-fixer fix",
+        "normalize-composer": "composer normalize",
+        "rector": "php vendor/bin/rector process  --config rector.php",
+        "test": "php vendor/bin/phpunit"
     }
 }

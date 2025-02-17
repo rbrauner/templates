@@ -456,6 +456,20 @@ $RECYCLE.BIN/
 /vendor/
 ###< symfony/framework-bundle ###
 
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
+
+###> php-cs-fixer/shim ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< php-cs-fixer/shim ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
 ###> rbrauner/template ###
 !bin/deploy.sh
 .env
