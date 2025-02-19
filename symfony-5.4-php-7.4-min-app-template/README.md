@@ -1,10 +1,10 @@
-# Symfony Min App Template
+# Symfony 5.4 PHP 7.4 Min App Template
 
 ## General
 
 ### Tools versions
 
-- PHP ^8.3
+- PHP ^7.4
 - PHP extensions (install all to satisfy `symfony check:requirements`)
 - Composer ^2
 
