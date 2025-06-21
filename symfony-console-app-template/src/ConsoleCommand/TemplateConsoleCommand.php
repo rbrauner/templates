@@ -43,8 +43,8 @@ final class TemplateConsoleCommand extends Command
         try {
             $this->init($input, $output);
 
-            $this->io->writeln('Environment: '.$this->env);
-            $this->io->writeln('Language: '.$this->lang);
+            $this->io->writeln('Environment: ' . $this->env);
+            $this->io->writeln('Language: ' . $this->lang);
 
             $data = [];
             $progressBar = new ProgressBar($this->io, count($data));
@@ -52,13 +52,13 @@ final class TemplateConsoleCommand extends Command
             $progressBar->start();
             foreach ($progressBar->iterate($data) as $d) {
                 $temp = json_encode($d);
-                $progressBar->setMessage('Processing '.$temp);
+                $progressBar->setMessage('Processing ' . $temp);
                 // do sth
             }
 
             $progressBar->finish();
         } catch (\Throwable $throwable) {
-            $this->io->error('Error: '.$throwable->getMessage());
+            $this->io->error('Error: ' . $throwable->getMessage());
 
             return Command::FAILURE;
         }

@@ -1,51 +1,22 @@
 {
     "name": "rbrauner/template",
-    "description": "PHP App Template",
+    "description": "template",
     "license": "MIT",
     "type": "project",
     "authors": [
         {
-            "name": "rbrauner",
+            "name": "Rafał Brauner",
             "email": "rafalbrauner@gmail.com"
         }
     ],
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "composer/composer": "^2.8"
     },
-    "require-dev": {
-        "enlightn/security-checker": "^2.0",
-        "ergebnis/composer-normalize": "^2.45",
-        "php-cs-fixer/shim": "^3.68",
-        "phpstan/extension-installer": "^1.4",
-        "phpstan/phpstan": "^2.1",
-        "phpstan/phpstan-phpunit": "^2.0",
-        "phpunit/phpunit": "^11.5",
-        "rector/rector": "^2.0",
-        "roave/security-advisories": "dev-latest"
-    },
+    "require-dev": {},
     "autoload": {
         "psr-4": {
             "App\\": "src/"
         }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "App\\Tests\\": "tests/"
-        }
-    },
-    "config": {
-        "allow-plugins": {
-            "ergebnis/composer-normalize": true,
-            "phpstan/extension-installer": true
-        }
-    },
-    "scripts": {
-        "check": "php vendor/bin/php-cs-fixer check && php vendor/bin/phpstan analyse",
-        "check-security": "composer audit && php vendor/bin/security-checker security:check composer.lock",
-        "fix": "php vendor/bin/php-cs-fixer fix",
-        "normalize-composer": "composer normalize",
-        "rector": "php vendor/bin/rector process  --config rector.php",
-        "test": "php vendor/bin/phpunit"
     }
 }

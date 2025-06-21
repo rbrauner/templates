@@ -1,4 +1,4 @@
-# PHP App Template
+# PHP Tools Template
 
 ## General
 
