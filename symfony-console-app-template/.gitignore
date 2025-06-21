@@ -391,11 +391,3 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/git,vim,linux,macos,windows,visualstudiocode,phpstorm,phpstorm+all,phpstorm+iml,composer,phpunit,php-cs-fixer
-
-###> rbrauner/template ###
-!bin/deploy.sh
-.env
-.idea
-compose.yaml
-var
-###< rbrauner/template ###
