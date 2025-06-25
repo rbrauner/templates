@@ -13,37 +13,19 @@ services:
             - caddy_data:/data
             - caddy_config:/config
             - .:/var/www/html
-            - ./docker/dev/caddy/Caddyfile:/etc/caddy/Caddyfile
+            - ./docker/prod/caddy/Caddyfile:/etc/caddy/Caddyfile
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.template.loadbalancer.server.port=80"
             - "traefik.http.services.template-secure.loadbalancer.server.port=443"
-            - "traefik.http.routers.template.rule=Host(`${DOMAIN:-template.local}`)"
+            - "traefik.http.routers.template.rule=Host(`${DOMAIN:-template.com}`)"
             - "traefik.http.routers.template.entrypoints=http"
             - "traefik.http.routers.template.tls=false"
             - "traefik.http.routers.template.service=template"
-            - "traefik.http.routers.template-secure.rule=Host(`${DOMAIN:-template.local}`)"
+            - "traefik.http.routers.template-secure.rule=Host(`${DOMAIN:-template.com}`)"
             - "traefik.http.routers.template-secure.entrypoints=https"
             - "traefik.http.routers.template-secure.tls=true"
             - "traefik.http.routers.template-secure.service=template-secure"
-
-    node:
-        container_name: template-node
-        build:
-            context: .
-            dockerfile: ./docker/dev/node/Dockerfile
-            network: host
-        command: /var/www/html/docker/dev/node/startup.sh
-        working_dir: /var/www/html
-        user: "${UID:-1000}:${GID:-1000}"
-        environment:
-            HOME: ${HOME}
-        tty: true
-        networks:
-            main:
-        volumes:
-            - home:/home/rbrauner
-            - .:/var/www/html
 
     change-volume-ownership:
         container_name: template-change-volume-ownership
