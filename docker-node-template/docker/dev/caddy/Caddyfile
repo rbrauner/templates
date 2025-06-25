@@ -1,0 +1,17 @@
+{
+    debug
+    admin off
+    auto_https off
+}
+
+:80 {
+    root * /var/www/html/dist
+    encode gzip
+    file_server
+}
+
+:443 {
+    root * /var/www/html/dist
+    encode gzip
+    file_server
+}
