@@ -6,7 +6,7 @@ declare(strict_types=1);
  * Copyright (C) Rafał Brauner
  */
 
-namespace App\Tests\Other;
+namespace App\Tests\Unit\Other;
 
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
