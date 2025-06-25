@@ -31,7 +31,7 @@
 docker compose start
 ```
 
-App will be available on [http://template.local](http://template.local) (remember to configure reverse proxy).
+App will be available on [http://template.localhost](http://template.localhost) (remember to configure reverse proxy).
 
 At the end of the work run:
 
