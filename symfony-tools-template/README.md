@@ -34,9 +34,9 @@ services:
         container_name: template-postgres
         restart: unless-stopped
         environment:
-            POSTGRES_USER: "default"
-            POSTGRES_PASSWORD: "secret"
-            POSTGRES_DB: "default"
+            POSTGRES_USER: "template"
+            POSTGRES_PASSWORD: "template"
+            POSTGRES_DB: "template"
         # ports:
         #     - 5432:5432
         networks:
