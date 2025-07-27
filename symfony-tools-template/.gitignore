@@ -636,7 +636,7 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ###> rbrauner/template ###
-/!bin/deploy.sh
+!/bin/deploy.sh
 /.env
 /.idea
 /compose.yaml
