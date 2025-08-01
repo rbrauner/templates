@@ -41,13 +41,5 @@
             "ergebnis/composer-normalize": true,
             "phpstan/extension-installer": true
         }
-    },
-    "scripts": {
-        "check": "php vendor/bin/php-cs-fixer check && php vendor/bin/phpstan analyse",
-        "check-security": "composer audit && php vendor/bin/security-checker security:check composer.lock",
-        "fix": "php vendor/bin/php-cs-fixer fix",
-        "normalize-composer": "composer normalize",
-        "rector": "php vendor/bin/rector process  --config rector.php",
-        "test": "php vendor/bin/phpunit"
     }
 }

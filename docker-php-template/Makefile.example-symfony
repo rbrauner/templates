@@ -1,0 +1,193 @@
+# ========
+# = vars =
+# ========
+CADDY_RUNNING := $(shell docker ps | grep -q template-caddy && echo "yes" || echo "no")
+PHP_RUNNING := $(shell docker ps | grep -q template-php && echo "yes" || echo "no")
+
+# ========
+# = help =
+# ========
+help:
+	@echo "Available targets:"
+	@echo "  docker-build            - Docker build images               | make docker-build"
+	@echo "  docker-up               - Docker up containers              | make docker-up"
+	@echo "  docker-down             - Docker down containers            | make docker-down"
+	@echo "  docker-start            - Docker start containers           | make docker-start"
+	@echo "  docker-stop             - Docker stop containers            | make docker-stop"
+	@echo "  php-enter               - Enter php container               | make php-enter"
+	@echo "  php-exec                - Execute command on php container  | make php-exec COMMAND=\"php -v\""
+	@echo "  php-install             - Install composer dependencies     | make php-install"
+	@echo "  php-clear               - Clear cache and logs              | make php-clear"
+	@echo "  php-cache-clear         - Clear cache                       | make php-cache-clear"
+	@echo "  php-log-clear           - Clear logs                        | make php-log-clear"
+	@echo "  php-check               - Check code quality                | make php-check"
+	@echo "  php-check-security      - Check code security               | make php-check-security"
+	@echo "  php-fix                 - Fix code                          | make php-fix"
+	@echo "  php-composer-normalize  - Composer normalize                | make php-composer-normalize"
+	@echo "  php-test-all            - Run all tests                     | make php-test-all"
+	@echo "  php-test-unit           - Run unit tests                    | make php-test-unit"
+	@echo "  php-test-integration    - Run integration tests             | make php-test-integration"
+	@echo "  php-test-single         - Run single tests                  | make php-test-single FILE=\"tests/AdminBundle/Services/PlatformImport/DynamicXmlTransformerTest.php --filter playroom\""
+	@echo "  php-migrate             - Migrate database                  | make php-migrate"
+	@echo "  php-prepare-database    - Prepare database (ex. for tests)  | make php-prepare-database ENV=\"test\""
+
+# ================
+# = common tasks =
+# ================
+# docker build
+docker-build:
+	docker compose build
+
+# docker up
+docker-up:
+	docker compose up -d
+
+# docker down
+docker-down:
+	docker compose down
+
+# docker start
+docker-start:
+	docker compose start
+
+# docker stop
+docker-stop:
+	docker compose stop
+
+# ===================
+# = container tasks =
+# ===================
+php-enter:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+	docker compose exec -it php bash
+
+# np. COMMAND="php -v"
+php-exec:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+ifndef COMMAND
+	@echo 'COMMAND var missing. Example usage: `make php-exec COMMAND="php -v"`'
+	exit 1
+endif
+	docker compose exec -it php bash -c "$(COMMAND)"
+
+# install
+php-install:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+	docker compose exec -it php bash -c "composer install"
+
+php-clear: php-cache-clear php-log-clear
+
+php-cache-clear:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+	docker compose exec -it php bash -c "php -d memory_limit=-1 bin/console cache:clear && rm -rf var/cache/*"
+
+php-log-clear:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+	docker compose exec -it php bash -c "rm -rf var/log/*"
+
+php-check:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+	docker compose exec -it php bash -c "php -d memory_limit=-1 vendor/bin/rector process --dry-run"
+	docker compose exec -it php bash -c "php -d memory_limit=-1 vendor/bin/php-cs-fixer check"
+	docker compose exec -it php bash -c "php -d memory_limit=-1 vendor/bin/phpstan analyse"
+
+php-check-security:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+	docker compose exec -it php bash -c "composer audit"
+	docker compose exec -it php bash -c "php -d memory_limit=-1 vendor/bin/security-checker security:check composer.lock"
+
+php-fix:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+	docker compose exec -it php bash -c "php -d memory_limit=-1 vendor/bin/rector process"
+	docker compose exec -it php bash -c "php -d memory_limit=-1 vendor/bin/php-cs-fixer fix"
+
+php-composer-normalize:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+	docker compose exec -it php bash -c "composer normalize"
+
+php-test-all:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+	docker compose exec -it php bash -c "php -d memory_limit=-1 bin/phpunit tests"
+
+php-test-unit:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+	docker compose exec -it php bash -c "php -d memory_limit=-1 bin/phpunit --testsuite unit"
+
+php-test-integration:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+	docker compose exec -it php bash -c "php -d memory_limit=-1 bin/phpunit --testsuite integration"
+
+# np. FILE="tests/AdminBundle/Services/PlatformImport/DynamicXmlTransformerTest.php --filter playroom"
+php-test-single:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+ifndef FILE
+	@echo 'FILE var missing. Example usage: `make php-test-single FILE="tests/AdminBundle/Services/PlatformImport/DynamicXmlTransformerTest.php --filter playroom"`'
+	exit 1
+endif
+	docker compose exec -it php bash -c "php -d memory_limit=-1 bin/phpunit $(FILE)"
+
+php-migrate:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+	docker compose exec -it php bash -c "php -d memory_limit=-1 bin/console doctrine:migrations:migrate --no-interaction"
+
+# np. ENV="test"
+php-prepare-database:
+ifeq ($(PHP_RUNNING), no)
+	@echo "Container `template-php` is not running..."
+	exit 1
+endif
+ifndef ENV
+	@echo 'ENV var missing. Example usage: `make php-prepare-database ENV="test"`'
+	exit 1
+endif
+	docker compose exec -it php bash -c "APP_ENV=$(ENV) php -d memory_limit=-1 bin/console doctrine:database:drop --force --if-exists"
+	docker compose exec -it php bash -c "APP_ENV=$(ENV) php -d memory_limit=-1 bin/console doctrine:database:create"
+	docker compose exec -it php bash -c "APP_ENV=$(ENV) php -d memory_limit=-1 bin/console doctrine:migrations:migrate --no-interaction"
+	docker compose exec -it php bash -c "APP_ENV=$(ENV) php -d memory_limit=-1 bin/console doctrine:fixtures:load --append"
+
+# ===========
+# = include =
+# ===========
+-include Makefile.local.mk

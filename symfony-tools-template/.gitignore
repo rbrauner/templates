@@ -614,13 +614,9 @@ $RECYCLE.BIN/
 /vendor/
 ###< symfony/framework-bundle ###
 
-###> phpstan/phpstan ###
-phpstan.neon
-###< phpstan/phpstan ###
-
 ###> phpunit/phpunit ###
 /phpunit.xml
-.phpunit.result.cache
+/.phpunit.cache/
 ###< phpunit/phpunit ###
 
 ###> php-cs-fixer/shim ###
@@ -628,16 +624,14 @@ phpstan.neon
 /.php-cs-fixer.cache
 ###< php-cs-fixer/shim ###
 
-###> symfony/webpack-encore-bundle ###
-/node_modules/
-/public/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
 
 ###> rbrauner/template ###
 !/bin/deploy.sh
 /.env
 /.idea
 /compose.yaml
+/Makefile.local.mk
 ###< rbrauner/template ###

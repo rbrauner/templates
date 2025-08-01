@@ -19,11 +19,12 @@ return RectorConfig::configure()
         __DIR__.'/bin',
         __DIR__.'/config',
         __DIR__.'/migrations',
-        __DIR__ . '/public',
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
+        __DIR__.'/public',
+        __DIR__.'/src',
+        __DIR__.'/tests',
     ])
     ->withSkip([
+        __DIR__.'/var',
         __DIR__.'/vendor',
     ])
     ->withSets([
@@ -43,7 +44,7 @@ return RectorConfig::configure()
         SetList::INSTANCEOF,
         SetList::CARBON,
         SetList::BEHAT_ANNOTATIONS_TO_ATTRIBUTES,
-        SymfonySetList::SYMFONY_72,
+        SymfonySetList::SYMFONY_73,
     ])
     ->withSkip([
         RemoveNonExistingVarAnnotationRector::class,
