@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="tests/bootstrap.php"
-         cacheDirectory="var/phpunit/cache"
+         cacheDirectory="var/cache/phpunit"
          executionOrder="depends,defects"
          requireCoverageMetadata="true"
          beStrictAboutCoverageMetadata="true"
@@ -11,14 +13,13 @@
          failOnWarning="true"
          colors="true"
 >
-
     <php>
-        <ini name="display_errors" value="1"/>
-        <ini name="error_reporting" value="-1"/>
-        <env name="APP_ENV" value="test" force="true"/>
-        <env name="SHELL_VERBOSITY" value="-1"/>
-        <env name="SYMFONY_PHPUNIT_REMOVE" value=""/>
-        <env name="SYMFONY_PHPUNIT_VERSION" value="12.2"/>
+        <ini name="display_errors" value="1" />
+        <ini name="error_reporting" value="-1" />
+        <server name="SHELL_VERBOSITY" value="-1" />
+        <server name="APP_ENV" value="test" force="true" />
+        <server name="APP_SECRET" value="$ecretf0rt3st" />
+        <server name="KERNEL_CLASS" value="App\Kernel" />
     </php>
 
     <testsuites>
@@ -30,8 +31,11 @@
         </testsuite>
     </testsuites>
 
-
-    <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">
+    <source ignoreSuppressionOfDeprecations="true"
+            ignoreIndirectDeprecations="true"
+            restrictNotices="true"
+            restrictWarnings="true"
+    >
         <include>
             <directory>src</directory>
         </include>

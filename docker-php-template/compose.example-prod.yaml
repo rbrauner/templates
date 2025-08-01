@@ -2,18 +2,19 @@ services:
     caddy:
         container_name: template-caddy
         image: caddy:alpine
+        restart: unless-stopped
         working_dir: /var/www/html
         # user: "${UID:-1000}:${GID:-1000}"
-        environment:
-            HOME: /home/app
+        # environment:
+        #     HOME: /home/app
         networks:
             main:
         volumes:
-            - home:/home/app
             - caddy_data:/data
             - caddy_config:/config
+            # - home:/home/app
             - .:/var/www/html
-            - ./docker/prod/caddy/Caddyfile:/etc/caddy/Caddyfile
+            - ./docker/caddy/prod/Caddyfile:/etc/caddy/Caddyfile
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.template.loadbalancer.server.port=80"
@@ -26,15 +27,23 @@ services:
             - "traefik.http.routers.template-secure.entrypoints=https"
             - "traefik.http.routers.template-secure.tls=true"
             - "traefik.http.routers.template-secure.service=template-secure"
+            - "traefik.http.routers.wildcard-template.rule=HostRegexp(`.+\\.template\\.com`)"
+            - "traefik.http.routers.wildcard-template.entrypoints=http"
+            - "traefik.http.routers.wildcard-template.tls=false"
+            - "traefik.http.routers.wildcard-template.service=template"
+            - "traefik.http.routers.wildcard-template-secure.rule=HostRegexp(`.+\\.template\\.com`)"
+            - "traefik.http.routers.wildcard-template-secure.entrypoints=https"
+            - "traefik.http.routers.wildcard-template-secure.tls=true"
+            - "traefik.http.routers.wildcard-template-secure.service=template-secure"
 
     php:
         container_name: template-php
         build:
             context: .
-            dockerfile: ./docker/prod/php/Dockerfile
-            args:
-                - TZ="${TZ:-Europe/Warsaw}"
+            dockerfile: ./docker/php/Dockerfile
+            target: prod
             network: host
+        restart: unless-stopped
         working_dir: /var/www/html
         user: "${UID:-1000}:${GID:-1000}"
         environment:
@@ -49,6 +58,7 @@ services:
         container_name: template-change-volume-ownership
         image: alpine
         command: chown -R ${UID:-1000}:${GID:-1000} /home/app
+        restart: no
         user: root
         group_add:
             - ${GID:-1000}
@@ -63,5 +73,8 @@ networks:
 
 volumes:
     home:
-    caddy_data:
-    caddy_config:
+        name: template-home
+    caddy-data:
+        name: template-caddy-data
+    caddy-config:
+        name: template-caddy-config
