@@ -10,8 +10,8 @@ services:
         networks:
             main:
         volumes:
-            - caddy_data:/data
-            - caddy_config:/config
+            - caddy-data:/data
+            - caddy-config:/config
             # - home:/home/app
             - .:/var/www/html
             - ./docker/caddy/dev/Caddyfile:/etc/caddy/Caddyfile
