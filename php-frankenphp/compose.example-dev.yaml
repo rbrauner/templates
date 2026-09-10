@@ -1,0 +1,63 @@
+name: template
+
+services:
+    php:
+        container_name: template-php
+        build:
+            context: .
+            dockerfile: ./docker/php/Dockerfile
+            target: dev
+            network: host
+            args:
+                TZ: ${TZ:-Europe/Warsaw}
+                USER: ${APP_USER:-app}
+                GROUP: ${APP_GROUP:-app}
+                UID: ${UID:-1000}
+                GID: ${GID:-1000}
+        restart: unless-stopped
+        working_dir: /var/www/html
+        user: "${UID:-1000}:${GID:-1000}"
+        environment:
+            HOME: /home/${APP_USER:-app}
+            PHP_IDE_CONFIG: "serverName=template.localhost"
+            # XDEBUG_TRIGGER: 1
+        tty: true
+        networks:
+            shared-network-internal:
+            shared-network:
+        volumes:
+            - caddy-data:/data
+            - caddy-config:/config
+            - shared-home:/home/${APP_USER:-app}
+            - .:/var/www/html
+            - ./docker/php/dev/php.ini:/usr/local/etc/php/php.ini
+            - ./docker/php/dev/Caddyfile:/etc/frankenphp/Caddyfile
+        labels:
+            traefik.enable: true
+            traefik.http.services.template.loadbalancer.server.port: 80
+            traefik.http.services.template-secure.loadbalancer.server.port: 443
+            traefik.http.routers.template.rule: Host(`${DOMAIN:-template.localhost}`)
+            traefik.http.routers.template.entrypoints: http
+            traefik.http.routers.template.tls: false
+            traefik.http.routers.template.service: template
+            traefik.http.routers.template-secure.rule: Host(`${DOMAIN:-template.localhost}`)
+            traefik.http.routers.template-secure.entrypoints: https
+            traefik.http.routers.template-secure.tls: true
+            traefik.http.routers.template-secure.service: template-secure
+
+networks:
+    shared-network-internal:
+        name: ${SHARED_NETWORK_NAME:-shared-network-internal}
+        external: true
+    shared-network:
+        name: ${SHARED_NETWORK_NAME:-shared-network}
+        external: true
+
+volumes:
+    shared-home:
+        name: ${SHARED_HOME_VOLUME:-shared-home}
+        external: true
+    caddy-data:
+        name: template-caddy-data
+    caddy-config:
+        name: template-caddy-config
